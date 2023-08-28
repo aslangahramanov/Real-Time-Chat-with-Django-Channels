@@ -8,7 +8,7 @@ This web-based program pairs 2 people with the same interest via websockets usin
 
 ## Setup
 
-1. First, we clone the project from this repository to your own computer with the help of git bash.
+1. First, we clone the project from this repository to your own computer with the help of git clone.
 
 ```
 > git clone https://github.com/aslangahramanov/Real-Time-Chat-with-Django-Channels
@@ -42,7 +42,7 @@ This web-based program pairs 2 people with the same interest via websockets usin
 ```
 
 
-8. After sharing it on your local network, you can use the program to the site using the computer's ip address.
+8. After sharing it on your local network, you can use the program to using the computer's ip address.
 
 ```
 [localhost:8000]
