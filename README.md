@@ -12,7 +12,6 @@ This web-based program pairs 2 people with the same interest via websockets usin
 
 ```
 > git clone https://github.com/aslangahramanov/Real-Time-Chat-with-Django-Channels
-
 ```
 
 2. We create and activate the virtual environment for the project.
@@ -20,21 +19,18 @@ This web-based program pairs 2 people with the same interest via websockets usin
 ```
 > py -m venv projectenv
 > projectenv/Scripts/activate
-
 ```
 
 3. We install the packages necessary for the project to work properly.
 
 ```
 > pip install -r requirements.txt
-
 ```
 
 4. First we need to activate a redis port. We can do this easily with docker.
 
 ```
 > docker run --rm -p 6379:6379 redis:latest
-
 ```
 
 7. If Redis is working, let's start the project on the local server using other commands.
@@ -43,7 +39,6 @@ This web-based program pairs 2 people with the same interest via websockets usin
 > py manage.py makemigrations
 > py manage.py migrate
 > py manage.py runserver 0.0.0.0:8000
-
 ```
 
 
