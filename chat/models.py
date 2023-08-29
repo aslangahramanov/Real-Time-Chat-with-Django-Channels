@@ -17,3 +17,7 @@ class Person(models.Model):
 
 
 
+
+class PersonImage(models.Model):
+   person = models.ForeignKey(Person, on_delete=models.CASCADE, related_name='images', verbose_name="Person")
+   images = models.ImageField(upload_to='images/')

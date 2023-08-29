@@ -71,7 +71,56 @@ class ChatConsumer(AsyncWebsocketConsumer):
                     'message': message,
                     'user_id': user_id
             }
-    )
+        )
+            
+        elif action_type == 'writing_start':
+            print("WRITING")
+            user_id = text_data_json["user_id"]
+            await self.channel_layer.group_send(
+                self.room_group_name,
+                {
+                    'type': 'chat.user_writing',
+                    'user_id': user_id,
+                    'writing': True,
+                }
+        )
+            
+            
+        elif action_type == 'writing_end':
+            user_id = text_data_json["user_id"]
+            await self.channel_layer.group_send(
+                self.room_group_name,
+                {
+                    'type': 'chat.user_writing',
+                    'user_id': user_id,
+                    'writing': False
+                }
+        )
+        
+        elif action_type == 'send_image':
+            user_id = text_data_json["user_id"]
+            image_url = text_data_json["image_url"]
+            await self.channel_layer.group_send(
+                self.room_group_name,
+                {
+                    'type': 'chat.send_image_message',
+                    'user_id': user_id,
+                    'image_url': image_url
+                }
+            )
+         
+            
+            
+    async def chat_user_writing(self, event):
+        user_id = event["user_id"]
+        writing = event["writing"]
+        await self.send(text_data=json.dumps({
+            'user_id': user_id,
+            'writing': writing,
+            'type': 'writing_status',
+        }))
+            
+       
 
             
     async def chat_message(self, event):
@@ -79,8 +128,20 @@ class ChatConsumer(AsyncWebsocketConsumer):
         user_id = event["user_id"]
         await self.send(text_data=json.dumps({
                 'message': message,
-                'sender': user_id
+                'sender': user_id,
+                'type': 'send_message'
             }))
+    
+    
+    async def chat_send_image_message(self, event):
+        user_id = event["user_id"]
+        image_url = event["image_url"]
+        await self.send(text_data=json.dumps({
+            'sender': user_id,
+            'image_url': image_url,
+            'type': 'send_image'
+        }))
+  
 
 
 

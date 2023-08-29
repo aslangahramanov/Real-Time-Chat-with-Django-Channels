@@ -17,14 +17,14 @@
 
     <section id="main">
 
-        <form method="POST">
+        <div class="form">
             {% csrf_token %}
                 {% comment %} <span>When entering areas of interest, use: </span><strong>','</strong> {% endcomment %}
                 <div class="input-wrapper">
                     <input id="interest-input" class="interests" name="interests" type="text" placeholder="What do you wanna talk about?">
                     <button id="submit-button" type="button"><i class="fa-regular fa-paper-plane"></i></button>
                 </div>
-        </form>
+            </div>
 
     </section>
 
@@ -32,18 +32,24 @@
     <section id="chat">
         <div class="wrapper">
             <div class="header">Chat</div>
+            <div id="info" class="info"><i class="fa-regular fa-circle-dot"></i>
+                <span class='online'>Online</span>
+                <span style="display: none" class='writing'>Writing...</span>
+            </div>
         <div id="message-screen" class="main">
         </div>
         <div class="message">
-            <input id="chat-message-input" type="text" placeholder='Hi, How are u?'>
-            <button id="chat-message-submit" type="button"><i class="fa-solid fa-share"></i></button>
+            <input id="chat-message-input" type="text" placeholder='Hi, How are u?' oninput="changeInputValue()">
+            <button id="chat-message-submit" class="message-button" type="button"><i class="fa-solid fa-share"></i></button>
+            <input type="file" name="image" id="image-select" style="display:none">
+            <input type="hidden" id="person-id" name="unique-id" value="">
+            <button id="chat-image-select" class="image-button" type="button"><i class="fa-solid fa-image"></i></button>
         </div>
     </div>
     </section>
 
     
     <script src="{% static 'home.js' %}"></script>
-    <script src="{% static 'chat.js' %}"></script>
 
 </body>
 </html>

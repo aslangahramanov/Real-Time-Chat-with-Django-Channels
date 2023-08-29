@@ -39,6 +39,22 @@
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
 }
+#chat .wrapper .info {
+  background-color: rgb(196, 196, 196);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#chat .wrapper .info span {
+  font-size: 16px;
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: 300;
+}
+#chat .wrapper .info i {
+  font-size: 12px;
+  color: rgb(0, 168, 0);
+  margin-right: 5px;
+}
 #chat .wrapper .main {
   flex: 1;
   overflow-y: auto;
@@ -80,20 +96,25 @@
   border: none;
   border-top: 0.5px solid black;
 }
-#chat .wrapper .message button {
+#chat .wrapper .message .message-button, #chat .wrapper .message .image-button {
   background-color: orange;
   border: none;
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  left: 90%;
   padding: 10px;
   border-radius: 100%;
   cursor: pointer;
 }
-#chat .wrapper .message button i {
+#chat .wrapper .message .message-button i, #chat .wrapper .message .image-button i {
   font-size: 20px;
   color: white;
+}
+#chat .wrapper .message .message-button {
+  left: 90%;
+}
+#chat .wrapper .message .image-button {
+  left: 80%;
 }
 
 #header {
@@ -115,18 +136,18 @@
   justify-content: center;
   align-items: center;
 }
-#main form {
+#main .form {
   width: 50%;
 }
-#main form strong {
+#main .form strong {
   font-size: 20px;
 }
-#main form .input-wrapper {
+#main .form .input-wrapper {
   display: flex;
   align-items: center;
   position: relative;
 }
-#main form .input-wrapper .interests {
+#main .form .input-wrapper .interests {
   width: 90%;
   padding: 20px 80px 20px 20px;
   font-size: 25px;
@@ -134,7 +155,7 @@
   border-radius: 20px;
   border: 0.5px solid rgba(52, 52, 52, 0.57);
 }
-#main form .input-wrapper button {
+#main .form .input-wrapper button {
   padding: 20px;
   background-color: orange;
   border: none;
@@ -143,29 +164,29 @@
   position: absolute;
   right: 10%;
 }
-#main form .input-wrapper button i {
+#main .form .input-wrapper button i {
   font-size: 30px;
   color: white;
 }
 
 @media (max-width: 568px) {
-  form {
+  .form {
     width: 100% !important;
     padding: 0 10px !important;
   }
-  form strong {
+  .form strong {
     font-size: 12px !important;
   }
-  form .input-wrapper .interests {
+  .form .input-wrapper .interests {
     width: 100% !important;
     padding: 20px 70px 20px 20px !important;
     font-size: 16px !important;
   }
-  form .input-wrapper button {
+  .form .input-wrapper button {
     padding: 15px 15px !important;
     right: 1% !important;
   }
-  form .input-wrapper button i {
+  .form .input-wrapper button i {
     font-size: 20px !important;
   }
   #chat .wrapper {

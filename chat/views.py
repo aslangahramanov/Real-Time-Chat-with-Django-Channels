@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpRequest
 import hashlib
 from .models import Person
+from django.http import JsonResponse
 
 
 
@@ -11,3 +12,7 @@ def home(request):
 
 def chat(request):
     return render(request, "chat.html")
+
+
+
+
