@@ -30,7 +30,7 @@ This web-based program pairs 2 people with the same interest via websockets usin
 4. First we need to activate a redis port. We can do this easily with docker.
 
 ```
-> docker run -p 6379:6379 redis:latest
+> docker run -d -p 6379:6379 redis:latest
 ```
 
 7. If Redis is working, let's start the project on the local server using other commands.
