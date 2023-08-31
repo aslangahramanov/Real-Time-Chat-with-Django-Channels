@@ -7,9 +7,19 @@ const userId = localStorage.getItem('user_id');
 const onlineInfo = document.querySelector("#info .online") 
 const writingInfo = document.querySelector("#info .writing") 
 const personId = document.getElementById("person-id")
-
-
+const onlineIcon = document.querySelector("#info i")
+const findNewPerson = document.getElementById("find_new_person")
 const messageInputDom = document.querySelector('#chat-message-input');
+const messageSendButton = document.querySelector('#chat-message-submit')
+
+const newChat = document.getElementById('new-chat')
+const exitChat = document.getElementById('exit-chat')
+
+
+const imageSelectInput = document.getElementById("image-select")
+const imageSelectButton = document.getElementById("chat-image-select")
+const selectedImageDiv = document.getElementById('selected-image');
+
 
 
 function changeInputValue(){
@@ -58,9 +68,6 @@ const chatSocket = new WebSocket(
 
 
 
-chatSocket.onclose = function(e) {
-    console.error('Chat socket closed unexpectedly');
-};
 
 window.addEventListener('DOMContentLoaded', (event) => {
 if (!userId) {
@@ -79,21 +86,36 @@ chatSocket.onopen = function(event) {
 };
 
 
+
 submitButton.addEventListener('click', () => {
+    localStorage.setItem('interest', interestInput.value)
     chatSocket.send(JSON.stringify({
         'action_type': 'match_persons',
         'person_interest': interestInput.value,
         'user_id': userId
-    }))
-
+    })
+    )
     openModel()
-    chatSocket.onopen = function(event) {
-        chatSocket.send(JSON.stringify({
-            'action_type': 'insert_chat',
-            'user_id': userId
-        }));
-    };
 });
+
+
+if (newChat) {
+    newChat.addEventListener('click', () => {
+        interest = localStorage.getItem("interest")
+        console.log(interest);
+        console.log(userId);
+        chatSocket.send(JSON.stringify({
+            'action_type': 'rematch_persons',
+            'person_interest': interest,
+            'user_id': userId
+        })
+        )
+        findNewPerson.style.display = 'none'
+        messageSendButton.disabled = false
+        imageSelectButton.disabled = false
+        messageScreen.innerHTML = ""
+    })
+}
 
 
 
@@ -101,7 +123,7 @@ submitButton.addEventListener('click', () => {
 document.querySelector('#chat-message-input').focus();
 document.querySelector('#chat-message-input').onkeyup = function(e) {
     if (e.keyCode === 13) {  // enter, return
-        document.querySelector('#chat-message-submit').click();
+        messageSendButton.click();
     }
 }
 
@@ -111,6 +133,7 @@ chatSocket.onmessage = function(e) {
     const type = data.type;
 
     if (type === 'writing_status') {
+        updateOnlineStatus(true)
         const writing = data.writing;
         const user_id = data.user_id;
 
@@ -122,6 +145,7 @@ chatSocket.onmessage = function(e) {
             onlineInfo.style.display = "block";
         }
     } else if (type === 'send_message') {
+        updateOnlineStatus(true)
         const message = data.message;
         const sender = data.sender;
         if (message) {
@@ -135,6 +159,7 @@ chatSocket.onmessage = function(e) {
             endingMessageHandler();
         }
     } else if (type === 'send_image') {
+        updateOnlineStatus(true)
         const imageUrl = data.image_url;
         const sender = data.sender;
         if (imageUrl) {
@@ -147,11 +172,47 @@ chatSocket.onmessage = function(e) {
             messageInputDom.value = "";
             endingMessageHandler();
         }
+    } else if (type === 'offline') {
+        const user_id = data.user_id;
+        const offline = data.offline;
+        if (offline && user_id !== userId) {
+            updateOnlineStatus(false)
+            chatSocket.send(JSON.stringify({
+                'action_type': 'discard_room',
+                'user_id': userId
+            }));
+        }
+    } else if (type === 'online') {
+        const user_id = data.user_id;
+        const online = data.online;
+        if (online) {
+            updateOnlineStatus(true)
+        }
     }
 };
 
 
-document.querySelector('#chat-message-submit').onclick = function(e) {
+
+function updateOnlineStatus(isOnline) {
+    if (isOnline) {
+        onlineInfo.textContent = 'Online';
+            onlineIcon.style.color = 'green';
+            messageScreen.style.overflow = 'auto';
+            findNewPerson.style.display = 'none';
+            messageSendButton.disabled = false;
+            imageSelectButton.disabled = false;
+    } else {
+        onlineInfo.textContent = 'Offline';
+        onlineIcon.style.color = 'grey';
+        messageScreen.style.overflow = 'hidden';
+        findNewPerson.style.display = 'flex';
+        messageSendButton.disabled = true;
+        imageSelectButton.disabled = true;
+    }
+}
+
+
+messageSendButton.onclick = function(e) {
     const message = messageInputDom.value;
     if (message) {
         chatSocket.send(JSON.stringify({
@@ -167,7 +228,7 @@ document.querySelector('#chat-message-submit').onclick = function(e) {
 const chat = document.getElementById("chat")
 
 function openModel(){
-    if (chat && interestInput.value) {
+    if (chat) {
         chat.style.visibility = 'visible'
         chat.style.opacity = '1'
     }
@@ -187,10 +248,6 @@ function generateUserId() {
 
 
 
-
-const imageSelectInput = document.getElementById("image-select")
-const imageSelectButton = document.getElementById("chat-image-select")
-const selectedImageDiv = document.getElementById('selected-image');
 
 
 

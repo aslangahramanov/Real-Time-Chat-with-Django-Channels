@@ -6,14 +6,24 @@ import uuid
 
 
    
+
+class Interest(models.Model):
+   title = models.CharField(max_length=100)
+   
+   
+   def __str__(self):
+      return str(self.title)
+
+
+   
    
 class Person(models.Model):
    unique_id = models.CharField(max_length=250, unique=True)
-   interests = models.CharField(max_length=50)
+   interests = models.ManyToManyField(Interest)
    on_chat = models.BooleanField(default=False)
    
    def __str__(self):
-      return str(self.unique_id) + " " + "/" + " " + self.interests            
+      return str(self.unique_id)          
 
 
 

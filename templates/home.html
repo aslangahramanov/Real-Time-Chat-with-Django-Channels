@@ -32,11 +32,22 @@
     <section id="chat">
         <div class="wrapper">
             <div class="header">Chat</div>
-            <div id="info" class="info"><i class="fa-regular fa-circle-dot"></i>
+            <div id="info" class="info">
+                <i class="fa-regular fa-circle-dot"></i>
                 <span class='online'>Online</span>
                 <span style="display: none" class='writing'>Writing...</span>
             </div>
         <div id="message-screen" class="main">
+            <div id="find_new_person">
+                <div class="info-message">
+                    <strong class="disconnected">Disconnected</strong>
+                </div>
+                <div class="buttons">
+                    <button id="new-chat"><i class="fa-solid fa-arrow-rotate-right"></i> New Chat</button>
+                    <button id="exit"><i class="fa-solid fa-xmark"></i> Exit </button>
+                </div>
+
+            </div>
         </div>
         <div class="message">
             <input id="chat-message-input" type="text" placeholder='Hi, How are u?' oninput="changeInputValue()">
